@@ -92,7 +92,7 @@ jobs:
       - name: Download Fortify ScanCentral Client
         uses: fortify/gha-setup-scancentral-client@5b7382f8234fb9840958c49d5f32ae854115f9f3
       - name: Package Code + Dependencies
-        run: scancentral package $PACKAGE_OPTS -o package.zip
+        run: scancentral package $PACKAGE_OPTS -oss -o package.zip
         env:
           PACKAGE_OPTS: "-bt mvn -bc 'dependency:tree' -bc '-DoutputFile=.debricked-maven-dependencies.tgf' -bc '-DoutputType=tgf'"
 
@@ -111,7 +111,7 @@ jobs:
           FOD_USER: ${{ secrets.FOD_USER }}
           FOD_PAT: ${{ secrets.FOD_PAT }}
           FOD_RELEASE_ID: ${{ secrets.FOD_RELEASE_ID }}
-          FOD_UPLOADER_OPTS: "-ep 2 -pp 0 -I 1 -apf"
+          FOD_UPLOADER_OPTS: "-ep 2 -pp 2 -I 0 -apf"
           FOD_UPLOADER_NOTES: 'Triggered by GitHub Actions (${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})'
 
       # Once scan completes, pull SAST issues from Fortify on Demand and generate SARIF output.
